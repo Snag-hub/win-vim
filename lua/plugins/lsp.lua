@@ -12,13 +12,11 @@ return {
           require("lspsaga").setup({})
         end,
       },
-      "jose-elias-alvarez/null-ls.nvim",
     },
     config = function()
       local lspconfig = require("lspconfig")
       local mason = require("mason")
       local mason_lspconfig = require("mason-lspconfig")
-      local null_ls = require("null-ls")
 
       mason.setup()
       mason_lspconfig.setup({
@@ -43,7 +41,18 @@ return {
         vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
         vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
         vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+        -- Formatting keymap
+        if client.resolved_capabilities.document_formatting then
+          vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", { noremap = true, silent = true, desc = "Format document" })
+        end
+
+        -- Autoformat on save
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true }),
+          buffer = bufnr,
+          callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
+        })
       end
 
       mason_lspconfig.setup_handlers({

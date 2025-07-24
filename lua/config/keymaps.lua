@@ -26,9 +26,18 @@ keymap("n", "<leader>du", function() require("dapui").toggle() end, opts)
 -- Mine
 keymap("n","<leader>w", ":w<CR>", opts)
 keymap("n","<leader>q", ":q<CR>", opts)
-kyap("n","<leader>wq", ":wq<CR>", opts)
+keymap("n","<leader>wq", ":wq<CR>", opts)
 keymap('i', 'jj', '<Esc>', { noremap = true, silent = true, desc = "Exit insert mode with jj" })
 keymap('i', 'kk', '<Esc>', { noremap = true, silent = true, desc = "Exit insert mode with kk" })
 keymap('i', 'hh', '<Esc>', { noremap = true, silent = true, desc = "Exit insert mode with hh" })
 keymap('i', 'll', '<Esc>', { noremap = true, silent = true, desc = "Exit insert mode with ll" })
+
+-- New File
+keymap("n", "<leader>n", ":ene <BAR> startinsert <CR>", opts)
+
+-- Scratchpad
+keymap("n", "<leader>ns", ":enew | setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile | startinsert<CR>", { desc = "New scratchpad" })
+keymap({"n", "i"}, "<leader>x", ":bd!<CR>", { desc = "Close current buffer (scratchpad)" })
+
+
 
