@@ -39,5 +39,10 @@ keymap("n", "<leader>n", ":ene <BAR> startinsert <CR>", opts)
 keymap("n", "<leader>ns", ":enew | setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile | startinsert<CR>", { desc = "New scratchpad" })
 keymap({"n", "i"}, "<leader>x", ":bd!<CR>", { desc = "Close current buffer (scratchpad)" })
 
+-- Diagnostics
+keymap("n", "<leader>do", ":lua vim.diagnostic.open_float()<CR>", opts)
+keymap("n", "<leader>sd", ":lua require('telescope.builtin').diagnostics()<CR>", opts)
+
+
 
 
