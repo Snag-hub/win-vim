@@ -80,15 +80,18 @@ return {
 			})
 
 			-- === NEW: Use `handlers` (not `setup_handlers`) ===
-			mason_lspconfig.setup_handlers({
-				function(server_name)
-					local server_opts = vim.tbl_deep_extend("force", {
-						on_attach = opts.on_attach,
-						capabilities = opts.capabilities(),
-					}, opts.servers[server_name] or {})
-
-					lspconfig[server_name].setup(server_opts)
-				end,
+			-- CORRECT: Use `setup_handlers`? NO! Use `setup({ handlers = { ... } })`
+			mason_lspconfig.setup({
+				ensure_installed = vim.tbl_keys(opts.servers),
+				handlers = { -- This is the key
+					function(server_name)
+						local server_opts = vim.tbl_deep_extend("force", {
+							on_attach = opts.on_attach,
+							capabilities = opts.capabilities(),
+						}, opts.servers[server_name] or {})
+						lspconfig[server_name].setup(server_opts)
+					end,
+				},
 			})
 
 			-- === OPTIONAL: Manual enable (if you want full control) ===
@@ -98,4 +101,3 @@ return {
 		end,
 	},
 }
-
