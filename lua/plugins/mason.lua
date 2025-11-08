@@ -15,7 +15,7 @@ return {
 			"stylua", -- Lua formatter
 			"black", -- Python
 			"prettier", -- JS/TS/HTML
-			"ts_ls", -- LSP
+			"tsserver", -- LSP
 			"omnisharp", -- C# LSP
 			"tsx",
 		},

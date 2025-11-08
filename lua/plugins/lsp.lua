@@ -17,8 +17,10 @@ return {
 		},
 		opts = {
 			servers = {
-				ts_ls = {}, -- TypeScript
-				omnisharp = {}, -- C#
+				tsserver = {}, -- TypeScript
+				omnisharp = {
+					cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+				}, -- C#
 				-- Add more if needed
 			},
 			on_attach = function(client, bufnr)
@@ -72,6 +74,27 @@ return {
 		config = function(_, opts)
 			local lspconfig = require("lspconfig")
 			local mason_lspconfig = require("mason-lspconfig")
+
+			-- Set keymaps
+			local keymap = vim.keymap.set
+			local kopts = { noremap = true, silent = true }
+			keymap("n", "gD", vim.lsp.buf.declaration, { desc = "Go to Declaration" })
+			keymap("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
+			keymap("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
+			keymap("n", "gi", vim.lsp.buf.implementation, { desc = "Go to Implementation" })
+			keymap("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
+			keymap("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add Workspace Folder" })
+			keymap("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { desc = "Remove Workspace Folder" })
+			keymap("n", "<leader>wl", function()
+				print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+			end, { desc = "List Workspace Folders" })
+			keymap("n", "<leader>D", vim.lsp.buf.type_definition, { desc = "Type Definition" })
+			keymap("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
+			keymap("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+			keymap("n", "gr", vim.lsp.buf.references, { desc = "Go to References" })
+			keymap("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to Previous Diagnostic" })
+			keymap("n", "]d", vim.diagnostic.goto_next, { desc = "Go to Next Diagnostic" })
+			keymap("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Loclist" })
 
 			-- === MASON SETUP ===
 			require("mason").setup()
