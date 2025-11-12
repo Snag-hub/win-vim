@@ -15,9 +15,13 @@ return {
 			"stylua", -- Lua formatter
 			"black", -- Python
 			"prettier", -- JS/TS/HTML
-			"tsserver", -- LSP
+			"ts_ls", -- LSP
 			"omnisharp", -- C# LSP
 			"tsx",
+			"lua_ls", -- Lua LSP
+			"pyright", -- Python LSP
+			"eslint_d", -- JS/TS linter
+			"eslint", -- JS/TS linter
 		},
 	},
 	config = function(_, opts)

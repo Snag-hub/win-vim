@@ -17,7 +17,7 @@ return {
 		},
 		opts = {
 			servers = {
-				tsserver = {}, -- TypeScript
+				ts_ls = {}, -- TypeScript
 				omnisharp = {
 					cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
 				}, -- C#
