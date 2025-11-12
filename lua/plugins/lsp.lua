@@ -11,7 +11,16 @@ return {
 				"glepnir/lspsaga.nvim",
 				branch = "main",
 				config = function()
-					require("lspsaga").setup({})
+					require("lspsaga").setup({
+						code_action = {
+							num_shortcut = true,
+							show_server_name = false,
+							width = 0.8,
+							keys = {
+								quit = { "q", "<Esc>", "<leader><leader>" },
+							},
+						},
+					})
 				end,
 			},
 		},
@@ -43,7 +52,7 @@ return {
 				-- Refactor
 				vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
 				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+				vim.keymap.set("n", "<leader>ca", ":Lspsaga code_action<CR>", opts)
 				vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 
 				-- Diagnostics
@@ -90,11 +99,19 @@ return {
 			end, { desc = "List Workspace Folders" })
 			keymap("n", "<leader>D", vim.lsp.buf.type_definition, { desc = "Type Definition" })
 			keymap("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
-			keymap("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+			keymap("n", "<leader>ca", ":Lspsaga code_action<CR>", { desc = "Code Action" })
 			keymap("n", "gr", vim.lsp.buf.references, { desc = "Go to References" })
 			keymap("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to Previous Diagnostic" })
 			keymap("n", "]d", vim.diagnostic.goto_next, { desc = "Go to Next Diagnostic" })
 			keymap("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Loclist" })
+
+			vim.diagnostic.config({
+				virtual_text = true,
+				signs = true,
+				underline = true,
+				update_in_insert = false,
+				severity_sort = true,
+			})
 
 			-- === MASON SETUP ===
 			require("mason").setup()
